@@ -1,46 +1,68 @@
-import React from "react";
+import { useState } from "react";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { DeleteTask} from "../features/todos";
+import { DeleteTask, Edit,TaskDone, Update } from "../features/todos";
 const TaskList = () => {
-  const dispatch = useDispatch();
   const toDo = useSelector((state) => state.ToDo.value);
-  
-   const handleTaskDelete = (id) => {
+  const dispatch = useDispatch();
+
+  const [editingValue, setEditingValue] = useState("");
+
+  const handleTaskDelete = (id) => {
     dispatch(DeleteTask(id));
   };
-const handleTaskDone = (id) => {
-const checkedTask = toDo.map((task) =>
-  task.id === id ? { ...task, isTaskDone: !task.isTaskDone } : task
-);
-dispatch({ type: "toDo/TaskDone", payload:checkedTask });
-}
+  const handleTaskDone = (id) => {
+    dispatch({type:"ToDo/TaskDone", payload: id });
+  };
+ 
+  const handleTaskEdited = (task) => {
+    setEditingValue(task.taskName);
+    dispatch(Edit(task.id));
+  };
 
+ function handleMouseLeave(editingValue, id) {
+    dispatch(Update({ TaskEdited: editingValue, id }));
+  }
   return toDo.map((oneTask) => (
     <div
       className="flex justify-between items-center w-[50%] border-b-2 border-gray-300 pb-2"
       key={oneTask.id}
     >
-      <div className="flex gap-x-5 items-center">
-        <input
-          type="checkbox"
-          className="w-4 h-4 outline-none cursor-pointer"
-          name={oneTask.taskName}
-          checked={oneTask.isTaskDone}
-          onChange={() => handleTaskDone(oneTask.id)}
-        />
-        <label
-          className={`text-3xl text-center text-white font-semibold ${
-            oneTask.isTaskDone ? "text-red-500" : ""
-          }`}
-          htmlFor="isTaskDone"
-        >
-          {oneTask.taskName}
-        </label>
-      </div>
+      {!oneTask.isEdited ? (
+        <div className="flex gap-x-5 items-center">
+          <input
+            type="checkbox"
+            className="w-4 h-4 outline-none cursor-pointer"
+            name={oneTask.taskName}
+            checked={oneTask.isTaskDone}
+            onChange={() => handleTaskDone(oneTask)}
+          />
+          <label
+            className={`text-3xl text-center text-white font-semibold  ${
+              oneTask.isTaskDone ? "line-through" : ""
+            }`}
+            htmlFor="isTaskDone"
+          >
+            {oneTask.taskName}
+          </label>
+        </div>
+      ) : (
+        <div className="w-full pl-8">
+          <input
+            type="text"
+            value={editingValue}
+            className="text-3xl font-semibold text-white bg-transparent outline-none"
+            onChange={(event) => setEditingValue(event.target.value)}
+            onMouseLeave={() => handleMouseLeave(editingValue, oneTask.id)}
+          />
+        </div>
+      )}
 
       <div className="flex gap-x-2">
-        <div className="p-2 bg-gray-200 rounded-full cursor-pointer">
+        <div
+          className="p-2 bg-gray-200 rounded-full cursor-pointer"
+          onClick={() => handleTaskEdited(oneTask)}
+        >
           <AiFillEdit size={24} className="text-green-500" />
         </div>
         <div
