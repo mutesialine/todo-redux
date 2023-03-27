@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { DeleteTask, Edit,TaskDone, Update } from "../features/todos";
+import { DeleteTask, Edit, Update } from "../features/todos";
 const TaskList = () => {
   const toDo = useSelector((state) => state.ToDo.value);
   const dispatch = useDispatch();
@@ -12,7 +12,7 @@ const TaskList = () => {
     dispatch(DeleteTask(id));
   };
   const handleTaskDone = (id) => {
-    dispatch({type:"ToDo/TaskDone", payload: id });
+    dispatch({type:"ToDo/TaskDone", payload:id});
   };
  
   const handleTaskEdited = (task) => {
@@ -20,8 +20,8 @@ const TaskList = () => {
     dispatch(Edit(task.id));
   };
 
- function handleMouseLeave(editingValue, id) {
-    dispatch(Update({ TaskEdited: editingValue, id }));
+ const handleMouseLeave = (editingValue, id) => {
+    dispatch(Update({ TaskEdited:editingValue, id }));
   }
   return toDo.map((oneTask) => (
     <div
@@ -33,15 +33,13 @@ const TaskList = () => {
           <input
             type="checkbox"
             className="w-4 h-4 outline-none cursor-pointer"
-            name={oneTask.taskName}
             checked={oneTask.isTaskDone}
-            onChange={() => handleTaskDone(oneTask)}
+            onChange={() => handleTaskDone(oneTask.id)}
           />
           <label
             className={`text-3xl text-center text-white font-semibold  ${
               oneTask.isTaskDone ? "line-through" : ""
             }`}
-            htmlFor="isTaskDone"
           >
             {oneTask.taskName}
           </label>
