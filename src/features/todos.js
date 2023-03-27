@@ -31,10 +31,10 @@ export const todoSlice = createSlice({
     },
 
     Update: (state, action) => {
-      const { id, TaskEdited} = action.payload;
+      const { id, taskEdited} = action.payload;
       state.value = state.value.map((task) =>
         task.id === id
-          ? { ...task,TaskName:TaskEdited, isEdited:false }
+          ? { ...task, taskName:taskEdited, isEdited:false }
           : task
       );
     },

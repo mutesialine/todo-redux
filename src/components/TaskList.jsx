@@ -6,7 +6,7 @@ const TaskList = () => {
   const toDo = useSelector((state) => state.ToDo.value);
   const dispatch = useDispatch();
 
-  const [editingValue, setEditingValue] = useState("");
+  const [valueEdited, setEditedValue] = useState("");
 
   const handleTaskDelete = (id) => {
     dispatch(DeleteTask(id));
@@ -16,12 +16,12 @@ const TaskList = () => {
   };
 
   const handleTaskEdited = (task) => {
-    setEditingValue(task.taskName);
+    setEditedValue(task.taskName);
     dispatch(Edit(task.id));
   };
 
-  const handleMouseLeave = (editingValue, id) => {
-    dispatch(Update({ TaskEdited: editingValue, id }));
+  const handletaskUpdate = (valueEdited, id) => {
+    dispatch(Update({ taskEdited:valueEdited, id }));
   };
   return toDo.length > 0 ? (
     toDo.map((oneTask) => (
@@ -49,10 +49,10 @@ const TaskList = () => {
           <div className="w-full pl-8">
             <input
               type="text"
-              value={editingValue}
+              value={valueEdited}
               className="text-3xl font-semibold text-white bg-transparent outline-none"
-              onChange={(event) => setEditingValue(event.target.value)}
-              onMouseLeave={() => handleMouseLeave(editingValue, oneTask.id)}
+              onChange={(event) => setEditedValue(event.target.value)}
+              onMouseLeave={() => handletaskUpdate(valueEdited, oneTask.id)}
             />
           </div>
         )}
