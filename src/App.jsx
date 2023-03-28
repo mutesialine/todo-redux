@@ -1,5 +1,3 @@
-import ToDo from "./components/ToDo";
-const App = () => {
-  return <ToDo />;
-};
+import ToDo from "./components/Todos";
+const App = () => <ToDo />
 export default App;

@@ -8,7 +8,7 @@ import ToDoReducer from "./features/todos";
 
 const Store= configureStore({
   reducer :{
-  ToDo: ToDoReducer,
+  TODO: ToDoReducer,
   }
 })
 

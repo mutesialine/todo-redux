@@ -1,30 +1,30 @@
 import { useState } from "react";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { DeleteTask, Edit, Update } from "../features/todos";
+import { deleteTask, edit, update } from "../features/todos";
 const TaskList = () => {
-  const toDo = useSelector((state) => state.ToDo.value);
+  const todo = useSelector((state) => state.TODO.value);
   const dispatch = useDispatch();
 
   const [valueEdited, setEditedValue] = useState("");
 
   const handleTaskDelete = (id) => {
-    dispatch(DeleteTask(id));
+    dispatch(deleteTask(id));
   };
   const handleTaskDone = (id) => {
-    dispatch({ type: "ToDo/TaskDone", payload: id });
+    dispatch({ type: "TODO/taskDone", payload: id });
   };
 
   const handleTaskEdited = (task) => {
     setEditedValue(task.taskName);
-    dispatch(Edit(task.id));
+    dispatch(edit(task.id));
   };
 
   const handletaskUpdate = (valueEdited, id) => {
-    dispatch(Update({ taskEdited:valueEdited, id }));
+    dispatch(update({ taskEdited:valueEdited, id }));
   };
-  return toDo.length > 0 ? (
-    toDo.map((oneTask) => (
+  return todo.length > 0 ? (
+    todo.map((oneTask) => (
       <div
         className="flex justify-between items-center w-[50%] border-b-2 border-gray-300 pb-2"
         key={oneTask.id}

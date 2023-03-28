@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { AiFillPlusCircle } from "react-icons/ai";
-import { AddTask } from "../features/todos";
+import { addTask } from "../features/todos";
 import { useDispatch } from "react-redux";
 const TaskInput = () => {
   const dispatch = useDispatch()
@@ -11,7 +11,7 @@ const TaskInput = () => {
 
      const handleTaskAdd = () => {
        if (task.trim() !== "") {
-        dispatch(AddTask(task));
+        dispatch(addTask(task));
          setTask("");
        }
      };
