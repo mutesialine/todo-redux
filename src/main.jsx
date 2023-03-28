@@ -6,7 +6,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import {Provider} from 'react-redux'
 import ToDoReducer from "./features/todos";
 
-const Store= configureStore({
+const store= configureStore({
   reducer :{
   TODO: ToDoReducer,
   }
@@ -14,7 +14,7 @@ const Store= configureStore({
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <Provider store={Store}>
+    <Provider store={store}>
       <App />
     </Provider>
   </StrictMode>
